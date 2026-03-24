@@ -5,6 +5,9 @@ import numpy as np
 # Load the saved model
 model = pickle.load(open('model.pkl', 'rb'))
 
+# Define the names in the correct order for the Iris dataset
+target_names = ['Setosa', 'Versicolor', 'Virginica']
+
 st.title("Flower Species Predictor")
 st.write("Enter the measurements below to see what species of Iris it is.")
 
@@ -17,4 +20,8 @@ p_width = st.number_input("Petal Width", 0.0, 10.0, 0.2)
 if st.button("Predict"):
     features = np.array([[s_length, s_width, p_length, p_width]])
     prediction = model.predict(features)
-    st.success(f"The predicted species is: {prediction[0]}")
+    
+    # Map the numerical prediction (0, 1, or 2) to the name
+    result = target_names[prediction[0]]
+    
+    st.success(f"The predicted species is: **{result}**")
